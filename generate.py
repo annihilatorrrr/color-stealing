@@ -1,7 +1,7 @@
 import argparse
 
 from src import hardcoded
-from src.ifs import build_fractal
+from src.build import build_fractal
 from src.io import most_recent_file
 from src.render import cmap_dict, render_fractal
 
