@@ -2,8 +2,8 @@ import numpy as np
 import os
 import pathlib
 
-img_dir = 'images'
-ifs_dir = 'ifs'
+img_subdir = 'images'
+ifs_subdir = 'ifs'
 
 
 def save_ifs(ifs, path):
@@ -48,8 +48,9 @@ def load_ifs(path):
     return w, b, p
 
 
-def most_recent_file():
-    all_files = pathlib.Path(ifs_dir).rglob('*.csv')
+def most_recent_file(args):
+    csv_dir = os.path.join(args.dir, ifs_subdir)
+    all_files = pathlib.Path(csv_dir).rglob('*.csv')
     most_recent = max(all_files, key=os.path.getmtime)
 
     return most_recent

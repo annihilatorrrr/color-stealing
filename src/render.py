@@ -2,7 +2,7 @@ import datetime
 import os
 import matplotlib.pyplot as plt
 
-from src.io import img_dir, ifs_dir, save_ifs
+from src.io import img_subdir, ifs_subdir, save_ifs
 
 
 cmap_dict = {
@@ -16,6 +16,9 @@ def render_fractal(canvas, ifs, args):
         plt.imshow(canvas, cmap=args.cmap)
         plt.axis('off')
         plt.show()
+
+    img_dir = os.path.join(args.dir, img_subdir)
+    ifs_dir = os.path.join(args.dir, ifs_subdir)
 
     if args.save:
         os.makedirs(img_dir, exist_ok=True)

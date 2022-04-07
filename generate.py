@@ -32,6 +32,8 @@ def parse_args():
         '--mutate', '-m', type=str, default='')
     parser.add_argument(
         '--no_tqdm', '-nt', action='store_true')
+    parser.add_argument(
+        '--dir', '-d', type=str, default='')
 
     args = parser.parse_args()
 
@@ -43,9 +45,9 @@ def parse_args():
     if args.fixed:
         assert args.fixed in hardcoded.w
     if args.load == 'r':
-        args.load = most_recent_file()
+        args.load = most_recent_file(args)
     if args.mutate == 'r':
-        args.mutate = most_recent_file()
+        args.mutate = most_recent_file(args)
 
     return args
 
