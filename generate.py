@@ -33,7 +33,7 @@ def parse_args():
     parser.add_argument(
         '--no_tqdm', '-nt', action='store_true')
     parser.add_argument(
-        '--dir', '-d', type=str, default='')
+        '--dir', '-d', type=str, default='creations')
 
     args = parser.parse_args()
 
@@ -52,11 +52,11 @@ def parse_args():
     return args
 
 
-def run():
+def main():
     args = parse_args()
     canvas, ifs = build_fractal(args)
     render_fractal(canvas=canvas, ifs=ifs, args=args)
 
 
 if __name__ == '__main__':
-    run()
+    main()
