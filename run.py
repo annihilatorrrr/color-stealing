@@ -1,4 +1,5 @@
 import argparse
+import os
 
 from src import hardcoded
 from src.build import build_fractal
@@ -10,7 +11,7 @@ def parse_args():
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        '--fixed', '-f', type=str, default='')
+        '--fixed', '-fi', type=str, default='')
     parser.add_argument(
         '--resolution', '-r', type=int, default=2 ** 10)
     parser.add_argument(
@@ -20,8 +21,7 @@ def parse_args():
     parser.add_argument(
         '--n_ignore', '-ni', type=int, default=int(2e2))
     parser.add_argument(
-        '--cmap', '-c', type=str, default='i',
-        choices=list(cmap_dict.keys()))
+        '--cmap', '-cm', type=str, default='i', choices=list(cmap_dict.keys()))
     parser.add_argument(
         '--plot', '-p', action='store_true')
     parser.add_argument(
@@ -34,14 +34,20 @@ def parse_args():
         '--no_tqdm', '-nt', action='store_true')
     parser.add_argument(
         '--dir', '-d', type=str, default='creations')
+    parser.add_argument(
+        '--steal', '-c', type=str, default='')
+    parser.add_argument(
+        '--flame', '-f', action='store_true')
 
     args = parser.parse_args()
+    args.cmap = cmap_dict[args.cmap]
 
     assert args.save or args.plot
+    assert not (args.steal and args.flame)
 
-    if args.plot or args.save:
-        assert args.cmap in cmap_dict
-        args.cmap = cmap_dict[args.cmap]
+    if args.steal:
+        assert os.path.isfile(args.steal)
+
     if args.fixed:
         assert args.fixed in hardcoded.w
     if args.load == 'r':

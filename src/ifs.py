@@ -1,7 +1,7 @@
 import numpy as np
 
 from src import hardcoded
-from src.io import load_ifs
+from src.io import read_ifs
 
 
 def mutate1(ifs):
@@ -46,12 +46,13 @@ def mutate_ifs(ifs):
     return w, b, p
 
 
-def sample_ifs():
+def sample_ifs(n_ifs=None):
     """Creates a random IFS as described in:
     https://arxiv.org/pdf/2110.03091.pdf
     https://arxiv.org/pdf/2101.08515.pdf
     """
-    n_ifs = np.random.randint(low=2, high=9)
+    if not n_ifs:
+        n_ifs = np.random.randint(low=2, high=9)
 
     theta_phi = np.random.uniform(low=0, high=np.pi, size=[2, n_ifs])
     cos_theta, cos_phi = np.cos(theta_phi)
@@ -78,6 +79,8 @@ def sample_ifs():
     p = np.abs([np.linalg.det(x) for x in w])
     p /= p.sum()
 
+    w, b, p = map(lambda x: x.astype(np.float32), [w, b, p])
+
     return w, b, p
 
 
@@ -90,10 +93,10 @@ def build_ifs(args):
         w, b = w.transpose([0, 2, 1]), b[:, None, :]
 
     elif load:
-        w, b, p = load_ifs(load)
+        w, b, p = read_ifs(load)
 
     elif mutate:
-        ifs = load_ifs(mutate)
+        ifs = read_ifs(mutate)
         w, b, p = mutate_ifs(ifs)
 
     else:

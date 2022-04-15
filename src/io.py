@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import numpy as np
 import os
 import pathlib
@@ -21,7 +22,7 @@ def save_ifs(ifs, path):
         np.savetxt(file, p)
 
 
-def load_ifs(path):
+def read_ifs(path):
     assert os.path.isfile(path)
 
     with open(path, 'r') as file:
@@ -51,6 +52,17 @@ def load_ifs(path):
 def most_recent_file(args):
     csv_dir = os.path.join(args.dir, ifs_subdir)
     all_files = pathlib.Path(csv_dir).rglob('*.csv')
+    assert all_files
     most_recent = max(all_files, key=os.path.getmtime)
 
     return most_recent
+
+
+def read_image(path):
+    assert os.path.isfile(path)
+    image = plt.imread(path)
+    assert len(image.shape) == 3 and image.shape[2] >= 3
+    if image.shape[2] > 3:
+        image = image[..., :3]
+
+    return image
