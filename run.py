@@ -2,7 +2,7 @@ import argparse
 import os
 
 from src import hardcoded
-from src.build import build_fractal
+from src.chaos_game import build_fractal
 from src.io import most_recent_file
 from src.render import cmap_dict, render_fractal
 
@@ -35,18 +35,22 @@ def parse_args():
     parser.add_argument(
         '--dir', '-d', type=str, default='creations')
     parser.add_argument(
-        '--steal', '-c', type=str, default='')
+        '--color_steal', '-c', type=str, default='')
     parser.add_argument(
         '--flame', '-f', action='store_true')
+    parser.add_argument(
+        '--gamma', '-g', type=float, default=2.)
+    parser.add_argument(
+        '--sup', '-su', type=int, default=3)
 
     args = parser.parse_args()
     args.cmap = cmap_dict[args.cmap]
 
     assert args.save or args.plot
-    assert not (args.steal and args.flame)
+    assert not (args.color_steal and args.flame)
 
-    if args.steal:
-        assert os.path.isfile(args.steal)
+    if args.color_steal:
+        assert os.path.isfile(args.color_steal)
 
     if args.fixed:
         assert args.fixed in hardcoded.w
@@ -54,6 +58,8 @@ def parse_args():
         args.load = most_recent_file(args)
     if args.mutate == 'r':
         args.mutate = most_recent_file(args)
+
+    assert args.gamma > 0 and args.sup >= 1
 
     return args
 

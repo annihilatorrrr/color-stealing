@@ -1,4 +1,5 @@
 import numpy as np
+import skimage.measure
 import tqdm
 
 from src.ifs import build_ifs, sample_ifs
@@ -22,7 +23,7 @@ def find_min_max(point_list):
 
 def binary_fractal(args):
     w, b, p = build_ifs(args)
-    fractal_set = []
+    point_buffer = []
     batch = np.random.uniform(size=[args.batch_size, 2]).astype(np.float32)
 
     for step in loop_wrapper(range(args.n_iter), args=args):
@@ -36,14 +37,14 @@ def binary_fractal(args):
         batch = np.concatenate(next_batch, axis=0)
 
         if step > args.n_ignore:
-            fractal_set.append(batch)
+            point_buffer.append(batch)
 
     canvas = np.full(
         [args.resolution, args.resolution], fill_value=False, dtype=bool)
 
-    min_, max_ = find_min_max(fractal_set)
+    min_, max_ = find_min_max(point_buffer)
 
-    for batch in fractal_set:
+    for batch in point_buffer:
         batch = (batch - min_) / (max_ - min_)
         batch = np.clip(
             (batch * args.resolution).astype(int), a_min=0, a_max=args.resolution - 1)
@@ -55,8 +56,11 @@ def binary_fractal(args):
     return canvas, (w, b, p)
 
 
-def color_stealing(args):
-    image = read_image(args.steal)
+def color_steal(args):
+    """Color Stealing Algorithm:
+    https://maths-people.anu.edu.au/~barnsley/pdfs/fractal_tops.pdf
+    """
+    image = read_image(args.color_steal)
     w_draw, b_draw, p_draw = build_ifs(args)
     w_color, b_color, _ = sample_ifs(w_draw.shape[0])
     buffer_draw, buffer_color = [], []
@@ -85,7 +89,7 @@ def color_stealing(args):
             buffer_color.append(batch_color)
 
     canvas_shape = [args.resolution, args.resolution, image.shape[2]]
-    canvas = np.full(shape=canvas_shape, fill_value=0, dtype=image.dtype)
+    canvas = np.zeros(shape=canvas_shape, dtype=image.dtype)
 
     min_draw, max_draw = find_min_max(buffer_draw)
     min_color, max_color = find_min_max(buffer_color)
@@ -109,14 +113,63 @@ def color_stealing(args):
 
 
 def flame_fractal(args):
-    pass
+    w, b, p = build_ifs(args)
+    colors = np.random.uniform(size=[w.shape[0], 3])
+    point_buffer, idx_buffer = [], []
+    point_batch = np.random.uniform(
+        size=[args.batch_size, 2]).astype(np.float32)
+
+    for step in loop_wrapper(range(args.n_iter), args=args):
+        idx_batch = np.random.choice(w.shape[0], size=args.batch_size, p=p)
+        next_point_batch = []
+
+        for ifs_idx in range(w.shape[0]):
+            next_point_batch.append(
+                np.matmul(point_batch[idx_batch == ifs_idx], w[ifs_idx]) + b[ifs_idx])
+
+        point_batch = np.concatenate(next_point_batch, axis=0)
+
+        if step > args.n_ignore:
+            point_buffer.append(point_batch)
+            idx_buffer.append(idx_batch)
+
+    sup_res = args.sup * args.resolution
+    canvas_shape = [sup_res, sup_res, 3]
+    canvas = np.zeros(shape=canvas_shape, dtype=np.float32)
+    freq = np.ones(shape=canvas_shape[:-1], dtype=np.float32)
+
+    min_, max_ = find_min_max(point_buffer)
+
+    for point_batch, idx_batch in zip(point_buffer, idx_buffer):
+        point_batch = (point_batch - min_) / (max_ - min_)
+        point_batch = np.clip(
+            (point_batch * sup_res).astype(int), a_min=0, a_max=sup_res - 1)
+
+        freq[point_batch[:, 0], point_batch[:, 1]] += 1
+        canvas[point_batch[:, 0], point_batch[:, 1]] = (
+            canvas[point_batch[:, 0], point_batch[:, 1]] + colors[idx_batch]) / 2.
+
+    block_size = (args.sup, args.sup, 1)
+    freq = skimage.measure.block_reduce(
+        freq, block_size=block_size[:2], func=np.mean)
+    canvas = skimage.measure.block_reduce(
+        canvas, block_size=block_size, func=np.mean)
+
+    eps = 1e-6
+    alpha = np.log(freq[..., None]) / np.log(freq.max())
+
+    canvas = canvas * alpha ** (1/args.gamma)
+
+    canvas = np.rot90(canvas)
+
+    return canvas, (w, b, p)
 
 
 def build_fractal(args):
-    assert not (args.steal and args.flame)
+    assert not (args.color_steal and args.flame)
 
-    if args.steal:
-        fractal = color_stealing(args)
+    if args.color_steal:
+        fractal = color_steal(args)
     elif args.flame:
         fractal = flame_fractal(args)
     else:
