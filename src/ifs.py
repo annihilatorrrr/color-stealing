@@ -5,6 +5,16 @@ from src.io import read_ifs
 
 
 def mutate1(ifs):
+    """Mutates an IFS by adding random noise to a subset of its params.
+
+    Args:
+        ifs (tuple of (np.array, np.array, np.array)): w [n, 2, 2], 
+            b [n, 1, 2], p [n].
+
+    Returns:
+        np.array [n, 2, 2]: Matrix w. 
+        np.array [n, 1, 2]: Bias b.
+    """
     mut_prob, noise_std = 0.15, 0.1
     w_b = np.concatenate(ifs[:2], axis=1)
 
@@ -23,6 +33,16 @@ def mutate1(ifs):
 
 
 def mutate2(ifs):
+    """Mutates an IFS by changing a single of its parameters.
+
+    Args:
+        ifs (tuple of (np.array, np.array, np.array)): w [n, 2, 2], 
+            b [n, 1, 2], p [n].
+
+    Returns:
+        np.array [n, 2, 2]: Matrix w. 
+        np.array [n, 1, 2]: Bias b.
+    """
     w_b = np.concatenate(ifs[:2], axis=1)
     w_b_shape = w_b.shape
 
@@ -36,6 +56,17 @@ def mutate2(ifs):
 
 
 def mutate_ifs(ifs):
+    """Mutates an IFS by either adding noise or changing a single param.
+
+    Args:
+        ifs (tuple of (np.array, np.array, np.array)): w [n, 2, 2], 
+            b [n, 1, 2], p [n].
+
+    Returns:
+        np.array [n, 2, 2]: Matrix w. 
+        np.array [n, 1, 2]: Bias b.
+        np.array [n]: Probability distribution p.
+    """
     all_mutations = [mutate1, mutate2]
     mutate_fn = np.random.choice(all_mutations)
     w, b = mutate_fn(ifs)
@@ -47,9 +78,20 @@ def mutate_ifs(ifs):
 
 
 def sample_ifs(n_ifs=None):
-    """Creates a random IFS as described in:
+    """Constructs a random IFS.
+
+    Simply sampling random numbers often leads to degenerate solutions. 
+    Threfore, the IFS is constructed using heuristics proposed in:
     https://arxiv.org/pdf/2110.03091.pdf
-    https://arxiv.org/pdf/2101.08515.pdf
+
+    Args:
+        n_ifs (int, None): Number of functions in the IFS. If None, the
+            number is randomly sampled.
+
+    Returns:
+        np.array [n, 2, 2]: Matrix w.
+        np.array [n, 1, 2]: Bias b.
+        np.array [n]: Probability distribution p.
     """
     if not n_ifs:
         n_ifs = np.random.randint(low=2, high=9)
@@ -85,6 +127,18 @@ def sample_ifs(n_ifs=None):
 
 
 def build_ifs(args):
+    """Constructs an IFS based on args.
+
+    Args:
+        args (argparse.Namespace): Arguments for the fractal construction. See run.py
+            for more details.
+
+    Returns:
+        Returns:
+        np.array [n, 2, 2]: Matrix w.
+        np.array [n, 1, 2]: Bias b.
+        np.array [n]: Probability distribution p.
+    """
 
     fixed, load, mutate = args.fixed, args.load, args.mutate
 

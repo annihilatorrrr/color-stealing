@@ -15,9 +15,9 @@ def parse_args():
     parser.add_argument(
         '--resolution', '-r', type=int, default=2 ** 10)
     parser.add_argument(
-        '--batch_size', '-b', type=int, default=2 ** 8)
+        '--batch_size', '-b', type=int, default=128)
     parser.add_argument(
-        '--n_iter', '-i', type=int, default=int(1e5))
+        '--n_iter', '-i', type=int, default=int(5e4))
     parser.add_argument(
         '--n_ignore', '-ni', type=int, default=int(2e2))
     parser.add_argument(
@@ -39,7 +39,7 @@ def parse_args():
     parser.add_argument(
         '--flame', '-f', action='store_true')
     parser.add_argument(
-        '--gamma', '-g', type=float, default=2.)
+        '--gamma', '-g', type=float, default=20.)
     parser.add_argument(
         '--sup', '-su', type=int, default=3)
 
@@ -47,7 +47,8 @@ def parse_args():
     args.cmap = cmap_dict[args.cmap]
 
     assert args.save or args.plot
-    assert not (args.color_steal and args.flame)
+    assert not (args.color_steal and args.flame), \
+        'Cannot use both color stealing and fractal flame. Pick one.'
 
     if args.color_steal:
         assert os.path.isfile(args.color_steal)

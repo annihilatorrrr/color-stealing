@@ -11,6 +11,15 @@ cmap_dict = {
 
 
 def render_fractal(canvas, ifs, args):
+    """Renders or/and saves the constructed image.
+
+    Args:
+        canvas (np.array [res, res] or [res, res, 3]): The generated image.
+        ifs (tuple of (np.array, np.array, np.array)): w [n, 2, 2], 
+            b [n, 1, 2], p [n].
+        args (argparse.Namespace): Arguments for the fractal construction. See run.py
+            for more details.
+    """
     if args.plot:
         plt.figure(figsize=(17, 17))
         plt.imshow(canvas, cmap=args.cmap)
