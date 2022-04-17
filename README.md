@@ -52,16 +52,16 @@ Below is a list of examples constructed by the provided scripts. Each sample was
 
 |Auxiliary Image | Binary Fractal | Color Stealing |
 | :--: |:--:|:--:|
-|<img src="assets/auxiliary/lava.jpg" width="500" height="220"/>|<img src="templates/images/27.png" width="500" height="220" />|<img src="assets/generated/lava_27_1.png" width="500" height="220"/>|
-|<img src="assets/auxiliary/lava.jpg" width="500" height="220"/>|<img src="templates/images/5.png" width="500" height="220" />|<img src="assets/generated/lava_5_2.png" width="500" height="220"/>|
-|<img src="assets/auxiliary/lava.jpg" width="500" height="220"/>|<img src="templates/images/34.png" width="500" height="220" />|<img src="assets/generated/lava_34_1.png" width="500" height="220"/>|
-|<img src="assets/auxiliary/lsd2.jpg" width="500" height="220"/>|<img src="templates/images/43.png" width="500" height="220" />|<img src="assets/generated/lsd2_43_6.png" width="500" height="220"/>|
-|<img src="assets/auxiliary/lsd2.jpg" width="500" height="220"/>|<img src="templates/images/30.png" width="500" height="220" />|<img src="assets/generated/lsd2_30_1.png" width="500" height="220"/>|
-|<img src="assets/auxiliary/color.jpg" width="500" height="220"/>|<img src="templates/images/22.png" width="500" height="220" />|<img src="assets/generated/color_22_1.png" width="500" height="220"/>|
-|<img src="assets/auxiliary/color.jpg" width="500" height="220"/>|<img src="templates/images/27.png" width="500" height="220" />|<img src="assets/generated/color_27_1.png" width="500" height="220"/>|
-|<img src="assets/auxiliary/van_gogh.jpg" width="500" height="220"/>|<img src="templates/images/39.png" width="500" height="220" />|<img src="assets/generated/van_gogh_39_1.png" width="500" height="220"/>|
-|<img src="assets/auxiliary/texture1.jpg" width="500" height="220"/>|<img src="templates/images/42.png" width="500" height="220" />|<img src="assets/generated/texture1_42_2.png" width="500" height="220"/>|
-|<img src="assets/auxiliary/wheat.jpg" width="500" height="220"/>|<img src="templates/images/43.png" width="500" height="220" />|<img src="assets/generated/wheat_43_2.png" width="500" height="220"/>|
+|<img src="assets/auxiliary/lava.jpg" width="500" height="240"/>|<img src="templates/images/27.png" width="500" height="240" />|<img src="assets/generated/lava_27_1.png" width="500" height="240"/>|
+|<img src="assets/auxiliary/lava.jpg" width="500" height="240"/>|<img src="templates/images/5.png" width="500" height="240" />|<img src="assets/generated/lava_5_2.png" width="500" height="240"/>|
+|<img src="assets/auxiliary/lava.jpg" width="500" height="240"/>|<img src="templates/images/34.png" width="500" height="240" />|<img src="assets/generated/lava_34_1.png" width="500" height="240"/>|
+|<img src="assets/auxiliary/lsd2.jpg" width="500" height="240"/>|<img src="templates/images/43.png" width="500" height="240" />|<img src="assets/generated/lsd2_43_6.png" width="500" height="240"/>|
+|<img src="assets/auxiliary/lsd2.jpg" width="500" height="240"/>|<img src="templates/images/30.png" width="500" height="240" />|<img src="assets/generated/lsd2_30_1.png" width="500" height="240"/>|
+|<img src="assets/auxiliary/color.jpg" width="500" height="240"/>|<img src="templates/images/22.png" width="500" height="240" />|<img src="assets/generated/color_22_1.png" width="500" height="240"/>|
+|<img src="assets/auxiliary/color.jpg" width="500" height="240"/>|<img src="templates/images/27.png" width="500" height="240" />|<img src="assets/generated/color_27_1.png" width="500" height="240"/>|
+|<img src="assets/auxiliary/van_gogh.jpg" width="500" height="240"/>|<img src="templates/images/39.png" width="500" height="240" />|<img src="assets/generated/van_gogh_39_1.png" width="500" height="240"/>|
+|<img src="assets/auxiliary/texture1.jpg" width="500" height="240"/>|<img src="templates/images/42.png" width="500" height="240" />|<img src="assets/generated/texture1_42_2.png" width="500" height="240"/>|
+|<img src="assets/auxiliary/wheat.jpg" width="500" height="240"/>|<img src="templates/images/43.png" width="500" height="240" />|<img src="assets/generated/wheat_43_2.png" width="500" height="240"/>|
 
 
 
@@ -79,10 +79,84 @@ pip install -r requirements.txt
 <a  id="usage"></a>
 Usage
 ===
+```
+python run.py OPTIONS
+```
 
-```
-$ python run.py [-c configs/config.yaml]
-```
+## Saving and rendering:
+    -s, --save [FILE_NAME]           If provided, saves the image and the IFS.
+                                     If FILE_NAME is not given, the image will 
+                                     be saved at DIR/images/TIMESTEP.png and
+                                     the IFS at DIR/ifs/TIMESTEP.csv. DIR is
+                                     the next argument and TIMESTEP is the
+                                     timestep at the time of saving the files. If
+                                     FILE_NAME is given, the image will be saved at 
+                                     DIR/images/FILE_NAME.png an the IFS at 
+                                     DIR/ifs/FILE_NAME.csv. For the script to run, 
+                                     either -p or -s must be provided.
+
+    -d, --dir DIR                    Directory where the image & the IFS file will
+                                     be saved.
+
+    -p, --plot                       If given, the constructed fractal will be
+                                     rendered using plt.imshow(). For the script
+                                     to run, either -p or -s must be provided.
+
+    -cm, --cmap CMAP                 cmap for for plt.imshow(). Accepted values are
+                                     'i', 'p', 'm', 'c', 'v'. Default value is 'i'.
+                                     CMAP is ignored if either -f or -c is provided.
+
+
+## Fractal parameters:
+    -r, --resolution RES             Resolution of the square fractal image. Default
+                                     value is 1024.
+
+    -b, --batch_size BS              Number of points calculated at each iteration.
+                                     If -f is given, setting BS <= 4 might result in 
+                                     better visuals. Default value is 128.
+
+    -i, --n_iter N_ITER              Number of iterations for the chaos game algorithm.
+                                     Default value is 50000.
+
+    -ni, --n_ignore N_IGNORE         Number of initial iterations that will not be 
+                                     rendered. Default value is 200.
+
+    -nt, --no_tqdm                   If given, the tqdm progress bar will not be used.
+
+
+## Loading saved IFS:
+    -l, --load PATH                  If not provided, the scripts will sample a random IFS.
+                                     If provided, the fractal stored inside PATH will be 
+                                     generated. PATH must be a path to a valid IFS csv 
+                                     file.
+
+    -m, --mutate PATH                Same as the previous argument, with the difference
+                                     that the loaded IFS will be slightly mutated in a 
+                                     random fashion.
+
+      
+## Color Stealing:
+    -c, --color_steal PATH           If not provided (and -f not provided), a binary 
+                                     fractal will be generated. If provided, the fractal 
+                                     will be constructed by copying color patterns from 
+                                     the image stored at PATH using the Color Stealing
+                                     algorithm.
+
+
+## Fractal Flame:
+    -f, --flame                      If not provided (and -c not provided), a binary 
+                                     fractal will be generated. If provided, the image  
+                                     will be generated using the Fractal Flame flmae
+                                     algorithm. Unfortunately, this mechanic is not 
+                                     working well yet. Setting BS <= 4 might result in 
+                                     better results.
+
+    -g, --gamma GAMMA                Gamma parameter for the fractal frame algorithm.
+                                     Default value is 20.
+
+    -su, --sup SUP                   Supersampling ratio for the fractal flame algorithm. 
+                                     Default value is 3.
+
 
 <a  id="contact"></a>
 Contact

@@ -18,7 +18,7 @@ def parse_args():
         'For fractal flame, should be <= 4 for better visuals.')
     parser.add_argument(
         '--n_iter', '-i', type=int, default=int(5e4),
-        help='Number of iterations for the chaos game algorithm')
+        help='Number of iterations for the chaos game algorithm.')
     parser.add_argument(
         '--n_ignore', '-ni', type=int, default=int(2e2),
         help='Number of initial iterations that will not be rendered.')
