@@ -9,7 +9,7 @@
       <img src="https://img.shields.io/badge/license-MIT-white.svg" /></a>
 </p>
 
-Python implementation of the [Color Stealing algorithm](https://maths-people.anu.edu.au/~barnsley/pdfs/fractal_tops.pdf) for fractals. In short, this technique constructs aesthetically pleasing fractals by copying color patterns from a given auxiliary image.
+Python implementation of the [Color Stealing algorithm](https://maths-people.anu.edu.au/~barnsley/pdfs/fractal_tops.pdf). In short, this technique constructs aesthetically pleasing fractals by copying color patterns from a given auxiliary image to a binary fractal.
 
 
 
@@ -21,7 +21,36 @@ Python implementation of the [Color Stealing algorithm](https://maths-people.anu
 
 
 
+Table of contents
+===
 
+<!--ts-->
+  * [➤ Summary](#summary)
+    * [➤ GAN](#gan)
+    * [➤ GUI](#gui)
+  * [➤ Generated Samples](#generated-samples)
+  * [➤ Installation](#installation)
+  * [➤ Usage](#usage)
+  * [➤ Contact](#contact)
+  * [➤ Citations](#citations)
+<!--te-->
+
+
+<a  id="summary"></a>
+Summary
+===
+
+Perhaps the most simple method to construct a fractal image is the [Chaos Game](https://en.wikipedia.org/wiki/Chaos_game). A fractal can be defined by its [iterated function system](https://en.wikipedia.org/wiki/Iterated_function_system) (IFS), which is a set of n functions. For images, each function is $F_i: R^2 → R^2$ with a corresponding probability $p_i$. The Chaos Game begins by sampling a random 2d coordinate $x_0 \in R^2$. At the j-th iteration, an integer $k_j$ is sampled based on the distribution $p$. The next coordinate is computed as $x_j = F_{k_j}(x_{j-1})$. This coordinate is then plotted on a 2d grid, which was initially empty. After a number of iterations, the result is a binary image. Examples of such images can be found in the second column of the [generated samples](#generated-samples) as well as at `templates/images`.
+
+The [Color Stealing algorithm](https://maths-people.anu.edu.au/~barnsley/pdfs/fractal_tops.pdf) extends the Chaos Game by adding color to the constructed fractal. This requires an auxiliary image as input. Specifically, two IFSs are kept: one with functions $F_i$ and probabilities $p_i$ for the fractal image and one with functions $G_i$ and no probabilities for the auxiliary image. Similarly, two coordinates are initially sampled: $x_0, z_0 \in R^2$. At the j-th iteration, an integer $k_j$ is likewise sampled from the distribution $p$, which is followed by calculations $x_j = F_{k_j}(x_{j-1})$ and $z_j = G_{k_j}(z_{j-1})$. Then the fractal is extended as fractal[$x_j$] = image[$z_j$]. This process eventually results in images such as the third column of [generated samples](#generated-samples).
+
+
+
+
+<a  id="generated-samples"></a>
+Generated samples
+===
+Below is a list of examples constructed by the provided scripts. Each sample was generated using the command `python run.py -s -i 100000 -nt -l <ifs_path> -c <img_path>`, where `<ifs_path>` was chosen from `templates/ifs` and `<img_path>` from `assets/auxiliary`. Running this commands produces a different result each time, due to rng. Obviously, all the examples are cherry-picked.
 
 |Auxiliary Image | Binary Fractal | Color Stealing |
 | :--: |:--:|:--:|
@@ -38,55 +67,13 @@ Python implementation of the [Color Stealing algorithm](https://maths-people.anu
 
 
 
-
-
-
-
-
-
-
-
-Table of contents
-===
-
-<!--ts-->
-  * [➤ Paper Summary](#paper-summary)
-    * [➤ GAN](#gan)
-    * [➤ GUI](#gui)
-  * [➤ Installation](#installation)
-  * [➤ Usage](#usage)
-  * [➤ Citations](#citations)
-<!--te-->
-
-
-<a  id="paper-summary"></a>
-Paper Summary
-===
-
-This paper combines generative adversarial networks with interactive evolutionary computation. Specifically,
-instead of randomly sampling from gans, a user can guide the generation by selecting images with desired traits using an interactive gui.
-
-<a  id="gan"></a>
-GAN
----
-The author of this repo does not possess the hardware, the time, the patience or the skills necessary to train gans. Threfore, the pretrained models from [Facebook's GAN zoo](https://github.com/facebookresearch/pytorch_GAN_zoo) are employed.
-
-
-
-<a  id="gui"></a>
-GUI
----
-Whereas the authors of the paper developed a web interface to display images, the author of this repo possesses zero web development skills and therefore makes due with a makeshift [tkinter](https://docs.python.org/3/library/tkinter.html) gui.
-
-
-
 <a  id="installation"></a>
 Installation
 ===
 ```
-$ git clone https://github.com/davidsvy/color-stealing
-$ cd color-stealing
-$ pip install -r requirements.txt
+git clone https://github.com/davidsvy/color-stealing
+cd color-stealing
+pip install -r requirements.txt
 ```
 
 
@@ -99,18 +86,20 @@ Usage
 $ python run.py [-c configs/config.yaml]
 ```
 
+<a  id="contact"></a>
+Contact
+===
+The author of this repo can be mailed at [dsvyezhentsev@gmail.com](mailto:dsvyezhentsev@gmail.com).
+
 <a  id="citations"></a>
 Citations
 ===
 
 ```bibtex
-@misc{bontrager2018deep,
-      title={Deep Interactive Evolution}, 
-      author={Philip Bontrager and Wending Lin and Julian Togelius and Sebastian Risi},
-      year={2018},
-      eprint={1801.08230},
-      archivePrefix={arXiv},
-      primaryClass={cs.NE}
+@inproceedings{Barnsley2003ERGODICT,
+  title={ERGODIC THEORY , FRACTAL TOPS AND COLOUR},
+  author={Michael F. Barnsley},
+  year={2003}
 }
 
 ```
