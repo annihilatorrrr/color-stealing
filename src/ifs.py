@@ -1,6 +1,5 @@
 import numpy as np
 
-from src import hardcoded
 from src.io import read_ifs
 
 
@@ -139,18 +138,11 @@ def build_ifs(args):
         np.array [n, 1, 2]: Bias b.
         np.array [n]: Probability distribution p.
     """
+    if args.load:
+        w, b, p = read_ifs(args.load)
 
-    fixed, load, mutate = args.fixed, args.load, args.mutate
-
-    if fixed and fixed in hardcoded.w:
-        w, b, p = hardcoded.w[fixed], hardcoded.b[fixed], hardcoded.p[fixed]
-        w, b = w.transpose([0, 2, 1]), b[:, None, :]
-
-    elif load:
-        w, b, p = read_ifs(load)
-
-    elif mutate:
-        ifs = read_ifs(mutate)
+    elif args.mutate:
+        ifs = read_ifs(args.mutate)
         w, b, p = mutate_ifs(ifs)
 
     else:

@@ -1,7 +1,6 @@
 import argparse
 import os
 
-from src import hardcoded
 from src.chaos_game import build_fractal
 from src.io import most_recent_file
 from src.render import cmap_dict, render_fractal
@@ -10,8 +9,6 @@ from src.render import cmap_dict, render_fractal
 def parse_args():
     parser = argparse.ArgumentParser()
 
-    parser.add_argument(
-        '--fixed', '-fi', type=str, default='')
     parser.add_argument(
         '--resolution', '-r', type=int, default=2 ** 10,
         help='Resolution of the created image. The image is square, so provide only one number.')
@@ -72,8 +69,6 @@ def parse_args():
         assert os.path.isfile(args.color_steal), \
             f'"{args.color_steal}" is not a valid image.'
 
-    if args.fixed:
-        assert args.fixed in hardcoded.w
     if args.load == 'r':
         args.load = most_recent_file(args)
     if args.mutate == 'r':
