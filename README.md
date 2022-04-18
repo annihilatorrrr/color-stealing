@@ -55,16 +55,16 @@ Below is a list of examples constructed by the provided scripts. Each sample was
 
 |Auxiliary Image | Binary Fractal | Color Stealing |
 | :--: |:--:|:--:|
-|<img src="assets/auxiliary/lava.jpg" width="500" height="240"/>|<img src="templates/images/27.png" width="500" height="240" />|<img src="assets/generated/lava_27_1.png" width="500" height="240"/>|
-|<img src="assets/auxiliary/lava.jpg" width="500" height="240"/>|<img src="templates/images/5.png" width="500" height="240" />|<img src="assets/generated/lava_5_2.png" width="500" height="240"/>|
-|<img src="assets/auxiliary/lava.jpg" width="500" height="240"/>|<img src="templates/images/34.png" width="500" height="240" />|<img src="assets/generated/lava_34_1.png" width="500" height="240"/>|
-|<img src="assets/auxiliary/lsd2.jpg" width="500" height="240"/>|<img src="templates/images/43.png" width="500" height="240" />|<img src="assets/generated/lsd2_43_6.png" width="500" height="240"/>|
-|<img src="assets/auxiliary/lsd2.jpg" width="500" height="240"/>|<img src="templates/images/30.png" width="500" height="240" />|<img src="assets/generated/lsd2_30_1.png" width="500" height="240"/>|
-|<img src="assets/auxiliary/color.jpg" width="500" height="240"/>|<img src="templates/images/22.png" width="500" height="240" />|<img src="assets/generated/color_22_1.png" width="500" height="240"/>|
-|<img src="assets/auxiliary/color.jpg" width="500" height="240"/>|<img src="templates/images/27.png" width="500" height="240" />|<img src="assets/generated/color_27_1.png" width="500" height="240"/>|
-|<img src="assets/auxiliary/van_gogh.jpg" width="500" height="240"/>|<img src="templates/images/39.png" width="500" height="240" />|<img src="assets/generated/van_gogh_39_1.png" width="500" height="240"/>|
-|<img src="assets/auxiliary/texture1.jpg" width="500" height="240"/>|<img src="templates/images/42.png" width="500" height="240" />|<img src="assets/generated/texture1_42_2.png" width="500" height="240"/>|
-|<img src="assets/auxiliary/wheat.jpg" width="500" height="240"/>|<img src="templates/images/43.png" width="500" height="240" />|<img src="assets/generated/wheat_43_2.png" width="500" height="240"/>|
+|<img src="assets/auxiliary/lava.jpg" width="500" height="200"/>|<img src="templates/images/27.png" width="500" height="200" />|<img src="assets/generated/lava_27_1.png" width="500" height="200"/>|
+|<img src="assets/auxiliary/lava.jpg" width="500" height="200"/>|<img src="templates/images/5.png" width="500" height="200" />|<img src="assets/generated/lava_5_2.png" width="500" height="200"/>|
+|<img src="assets/auxiliary/lava.jpg" width="500" height="200"/>|<img src="templates/images/34.png" width="500" height="200" />|<img src="assets/generated/lava_34_1.png" width="500" height="200"/>|
+|<img src="assets/auxiliary/lsd2.jpg" width="500" height="200"/>|<img src="templates/images/43.png" width="500" height="200" />|<img src="assets/generated/lsd2_43_6.png" width="500" height="200"/>|
+|<img src="assets/auxiliary/lsd2.jpg" width="500" height="200"/>|<img src="templates/images/30.png" width="500" height="200" />|<img src="assets/generated/lsd2_30_1.png" width="500" height="200"/>|
+|<img src="assets/auxiliary/color.jpg" width="500" height="200"/>|<img src="templates/images/22.png" width="500" height="200" />|<img src="assets/generated/color_22_1.png" width="500" height="200"/>|
+|<img src="assets/auxiliary/color.jpg" width="500" height="200"/>|<img src="templates/images/27.png" width="500" height="200" />|<img src="assets/generated/color_27_1.png" width="500" height="200"/>|
+|<img src="assets/auxiliary/van_gogh.jpg" width="500" height="200"/>|<img src="templates/images/39.png" width="500" height="200" />|<img src="assets/generated/van_gogh_39_1.png" width="500" height="200"/>|
+|<img src="assets/auxiliary/texture1.jpg" width="500" height="200"/>|<img src="templates/images/42.png" width="500" height="200" />|<img src="assets/generated/texture1_42_2.png" width="500" height="200"/>|
+|<img src="assets/auxiliary/wheat.jpg" width="500" height="200"/>|<img src="templates/images/43.png" width="500" height="200" />|<img src="assets/generated/wheat_43_2.png" width="500" height="200"/>|
 
 
 
