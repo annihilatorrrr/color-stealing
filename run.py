@@ -77,6 +77,8 @@ def parse_args():
     assert args.gamma > 0, 'Gamma must be positive.'
     assert args.sup >= 1, 'Sup must be at least one.'
 
+    assert args.n_iter > args.n_ignore, 'Provide n_iter >> n_ignore'
+
     return args
 
 
