@@ -56,12 +56,10 @@ def binary_fractal(args):
 
     for step in loop_wrapper(range(args.n_iter), args=args):
         ifs_idxs = np.random.choice(w.shape[0], size=args.batch_size, p=p)
-        next_batch = []
-
-        for ifs_idx in range(w.shape[0]):
-            next_batch.append(
-                np.matmul(batch[ifs_idxs == ifs_idx], w[ifs_idx]) + b[ifs_idx])
-
+        next_batch = [
+            np.matmul(batch[ifs_idxs == ifs_idx], w[ifs_idx]) + b[ifs_idx]
+            for ifs_idx in range(w.shape[0])
+        ]
         batch = np.concatenate(next_batch, axis=0)
 
         # The initial iterations are ignored as the coordinates have not converged yet.
@@ -180,12 +178,11 @@ def fractal_flame(args):
 
     for step in loop_wrapper(range(args.n_iter), args=args):
         idx_batch = np.random.choice(w.shape[0], size=args.batch_size, p=p)
-        next_coord_batch = []
-
-        for ifs_idx in range(w.shape[0]):
-            next_coord_batch.append(
-                np.matmul(coord_batch[idx_batch == ifs_idx], w[ifs_idx]) + b[ifs_idx])
-
+        next_coord_batch = [
+            np.matmul(coord_batch[idx_batch == ifs_idx], w[ifs_idx])
+            + b[ifs_idx]
+            for ifs_idx in range(w.shape[0])
+        ]
         coord_batch = np.concatenate(next_coord_batch, axis=0)
 
         # The initial iterations are ignored as the coordinates have not converged yet.
@@ -231,10 +228,8 @@ def build_fractal(args):
         'Cannot use both color stealing and fractal flame. Pick one.'
 
     if args.color_steal:
-        fractal = color_steal(args)
+        return color_steal(args)
     elif args.flame:
-        fractal = fractal_flame(args)
+        return fractal_flame(args)
     else:
-        fractal = binary_fractal(args)
-
-    return fractal
+        return binary_fractal(args)

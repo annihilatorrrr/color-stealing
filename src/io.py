@@ -51,7 +51,7 @@ def read_ifs(path):
             if step % 4:
                 w_b.append(row)
 
-        for step in range(n_ifs):
+        for _ in range(n_ifs):
             prob = float(file.readline())
             assert prob > 0, 'Probabilities must be positive numbers.'
             p.append(prob)
@@ -79,9 +79,7 @@ def most_recent_file(args):
     csv_dir = os.path.join(args.dir, ifs_subdir)
     all_files = pathlib.Path(csv_dir).rglob('*.csv')
     assert all_files, f'Directory "{csv_dir}" does not contain any csv files.'
-    most_recent = max(all_files, key=os.path.getmtime)
-
-    return most_recent
+    return max(all_files, key=os.path.getmtime)
 
 
 def read_image(path):
